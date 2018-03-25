@@ -1,0 +1,48 @@
+/*=== modif bootstrap ===*/
+.row.no-gutters {
+    margin-right: 0;
+    margin-left: 0;
+  }
+.row.no-gutters > [class^="col-"],
+.row.no-gutters > [class*=" col-"] {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+
+
+/*=== body ===*/
+
+/*=== header ===*/
+
+header{
+    background-image: url("../pictures/Alaska-Header.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #0275D8;
+    text-align: center;
+    padding : 50px;
+}
+h1{
+    width: 200px;
+    font-size: 30px;
+    color: white;
+    background-color: #0275D8;
+    margin: auto;
+}
+
+@media screen and (min-width:960px) { 
+    h1{
+        width: 500px;
+        font-size: 50px;
+        
+    }
+
+ }
+
+
+ footer{
+     background-color: black;
+     color: white;
+ }
