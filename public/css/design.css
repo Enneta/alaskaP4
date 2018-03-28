@@ -10,9 +10,30 @@
   }
 
 
-
+ /* reset lien a*/
+  a:link {
+    color: white; 
+    text-decoration:underline;
+  }
+  a:visited {
+    color: #8D5D26;
+    text-decoration:underline;
+  }
+  a:hover {
+    color:#8D5D26;
+    text-decoration:none;
+  }
+  /* Déclaration pour IE qui assimile l'état :focus à l'état :active */ /* Déclaration pour IE qui assimile l'état :focus à l'état :active */
+  a:focus, a:active {
+    background:#ACDFFA;
+    text-decoration:none;
+    color:#000000;
+  }
+  
 /*=== body ===*/
-
+html{
+    background-color: black;
+}
 /*=== header ===*/
 
 header{
@@ -41,8 +62,26 @@ h1{
 
  }
 
+ #main{
+     background-color: #0275D8;
+     color: white;
+     text-align: center;
+ }
+
+ #rightContent{
+    background-color: purple;
+    color: white;
+}
+
 
  footer{
      background-color: black;
      color: white;
+     text-align: center;
+ }
+
+ footer a{
+    margin: auto;
+    text-align: center;
+
  }
