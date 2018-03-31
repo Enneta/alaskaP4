@@ -1,9 +1,8 @@
-<?php $title = 'accueil admin'; ?>
+<?php $title = 'redirect'; ?>
 
 <?php ob_start(); ?>
-<h2>Bienvenue Jean Forteroche</h2>
-<p>Vous pouvez à partir de cette page administrer vos chapitres</p>
-<p>Ou alors modérer les commentaires.</p>
+<h2>Le changement de mot de passe a été effectué</h2>
+
 <?php $content = ob_get_clean(); ?>
 
 <?php ob_start(); ?>
@@ -13,4 +12,5 @@
     }
 };?>
 <?php $aside = ob_get_clean(); ?>
-<?php require('template.php'); ?>
+
+<?php require('view/Back-End/template.php'); ?>

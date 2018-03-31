@@ -21,7 +21,7 @@ CREATE TABLE b_comment (
 CREATE TABLE b_user (
     id int AUTO_INCREMENT,
     pseudo varchar(50),
-    pass varchar(50),
+    pass varchar(250),
     PRIMARY KEY (id)
 );
 INSERT INTO `b_user`(`pseudo`, `pass`) VALUES ('admin','admin');

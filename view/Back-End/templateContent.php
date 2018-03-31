@@ -6,7 +6,7 @@
     </div>
     <div id='rightContent'class="col-2 no-gutters">
         <?php
-            echo ('aside');
+            echo ($aside);
         ?>
     </div>
 

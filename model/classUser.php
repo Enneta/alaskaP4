@@ -11,12 +11,16 @@ class user
         return $donnes;
     }
 
-    public function switchPass($mpd)
-    {
+    public function switchPass($pass)
+    {   
+        $pass= password_hash($pass, PASSWORD_DEFAULT);
         $db = $this->dbConnect();
-        $req = $db->query("UPDATE `b_user` SET `pass`='admin' WHERE id = 1;");
-        $req->execute(array(0));
-        $donnes = $req->fetch();
+
+        $req = $db->prepare('UPDATE b_user SET pass = :pass WHERE id = 1');
+        $req->execute(array(
+	    'pass' => $pass
+	    ));
+        
     }
 
 

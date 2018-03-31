@@ -17,37 +17,60 @@ class controller{
     }
 
     public function actionSwitchMPD(){
-        require('view/Back-End/actionswitchMpd.php');
+        $_POST['actualMPD'] = htmlspecialchars($_POST['actualMPD']);
+        $_POST['mpd'] = htmlspecialchars($_POST['mpd']);
+        $_POST['mpdConfirm'] = htmlspecialchars($_POST['mpdConfirm']);
+        $user = new user();
+        $log = $user->getAll();
+        if($log[1] === $_POST['actualMPD']){
+            $user->switchPass($_POST['mpd']);
+            require('view/Back-End/actionSwitchMPDView.php');
+        }else if($_POST['mpd'] !== $_POST['mpdConfirm'] AND $_POST['mpd'] !== ''){
+            $msgError = "les nouveaux mots de passes saisies ne correspondent pas ou sont non valides";
+            require('view/Back-End/errorSwitchMPDView.php');
+        }else{
+            $msgError = "L'ancien mot de passe n'est pas le  bon";
+            require('view/Back-End/errorSwitchMPDView.php');
+        }
     }
     public function switchMpd(){
         
         require('view/Back-End/passFormView.php');
     }
     public function login(){
-        
-        require('view/Back-End/loginView.php');
+        if(isset($_SESSION['admin']) and $_SESSION['admin']){
+
+                require('view/Back-End/adminAccueilView.php');
+            }else{
+                require('view/Back-End/loginView.php');
+        }
     }
 
 
     public function connexion(){
+
+                $_POST['pseudo']= htmlspecialchars($_POST['pseudo']);
+                $_POST['mpd']= htmlspecialchars($_POST['mpd']);
+                $user = new user();
+                $log = $user->getAll();
         
-        $user = new user();
-        $log = $user->getAll();
-        echo($log[0]);
-        echo($log[1]);
-        echo($_POST['pseudo']);
-        echo($_POST['mpd']);
-        if (isset($_POST['pseudo']) AND isset($_POST['mpd'])){
-            if($_POST['pseudo'] === $log[0] AND $_POST['mpd'] === $log[1]){
-            require('view/Back-End/adminAccueilView.php');
-            }else{
-                $msgError = "Identifiant saisie incorect";
-                require('view/Back-End/errorLogView.php');
-            }
-        }else{
-            $msgError = "Attention aucun identifiant n'a été saisie";
-            require('view/Back-End/errorLogView.php');
-        }
+
+                if (isset($_POST['pseudo']) AND isset($_POST['mpd'])){
+                    // Comparaison du pass envoyé via le formulaire avec la base
+                    $isPasswordCorrect = password_verify($_POST['mpd'], $log[1]);
+                    if($_POST['pseudo'] === $log[0] AND $isPasswordCorrect){
+                        $_SESSION['admin'] = true;
+                        require('view/Back-End/adminAccueilView.php');
+                    }else{
+                        $msgError = "Identifiant saisie incorect";
+                        require('view/Back-End/errorLogView.php');
+                    }
+                }else{
+                    $msgError = "Attention aucun identifiant n'a été saisie";
+                    require('view/Back-End/errorLogView.php');
+                }
+            
+        
     }
 
 }

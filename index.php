@@ -1,5 +1,6 @@
 
 <?php
+session_start();
 require('controller/classController.php');
 
 $control = new controller();

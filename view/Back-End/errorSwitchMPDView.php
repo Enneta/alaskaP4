@@ -1,7 +1,9 @@
-<?php $title = 'changement de mot de passe'; ?>
+<?php $title = 'erreur'; ?>
 
 <?php ob_start(); ?>
-<h2>changement de mot de passe</h2>
+<h2>erreur lors du changement de passe</h2>
+<?php
+echo('<p>'.$msgError.'</p>');?>
 <form id="formulaire" action="./?action=actionSwitchPass" method="post" >
 	<p>Ancien mot de passe</p>
     <input type="password" class="formu" name="actualMPD" placeholder="Ancien mot de passe"/>
@@ -12,10 +14,9 @@
     </br>
 	<input type="submit" id="bouton" name="Envoyer" value="changer"/>
 </form>
+
+
+
 <?php $content = ob_get_clean(); ?>
-<?php ob_start(); ?>
 
-        
-
-<?php $aside = ob_get_clean(); ?>
 <?php require('template.php'); ?>
