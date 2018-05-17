@@ -13,9 +13,4 @@
 	<input type="submit" id="bouton" name="Envoyer" value="changer"/>
 </form>
 <?php $content = ob_get_clean(); ?>
-<?php ob_start(); ?>
-
-        
-
-<?php $aside = ob_get_clean(); ?>
-<?php require('template.php'); ?>
+<?php require('asideView.php'); ?>

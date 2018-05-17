@@ -1,36 +1,30 @@
 <?php
-class post
+require_once('model/Model.php');
+class Post extends Model
 {   
+    public $table = "b_post";
+    public $attributes = ['id', 'title','chapitre', 'content','parution','image'];
+    public $attributesTypes = [PDO::PARAM_INT,PDO::PARAM_STR,PDO::PARAM_INT,PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_STR];
     
-    public function setPosts()
-    {
+    final public function getPostWithChapter($chapter){
         $db = $this->dbConnect();
-        $req = $db->query("INSERT INTO `b_post`( `title`, `content`, `date`, `image`) VALUES ('titre1','salut je test','20061223 23:59:59.99','images/image1');");
-        return $req;
+        $req = $db->prepare('SELECT ' . implode(',', $this->attributes) .' FROM ' . $this->table.' WHERE `chapitre` =:chapter');
+        $req->bindParam('chapter', $chapter, PDO::PARAM_STR);
+        
+        $req->execute();
+        $donnes = $req->fetch();
+        
+        return $donnes;
     }
 
-    public function getPosts()
-    {
+    final public function getAllPostOrderParution(){
         $db = $this->dbConnect();
-        $req = $db->query('SELECT id, title, content, DATE_FORMAT(creation_date, \'%d/%m/%Y à %Hh%imin%ss\') AS creation_date_fr FROM posts ORDER BY creation_date DESC LIMIT 0, 5');
-
-        return $req;
-    }
-
-    public function getPost($postId)
-    {
-        $db = $this->dbConnect();
-        $req = $db->prepare('SELECT id, title, content, DATE_FORMAT(creation_date, \'%d/%m/%Y à %Hh%imin%ss\') AS creation_date_fr FROM posts WHERE id = ?');
-        $req->execute(array($postId));
-        $post = $req->fetch();
-
-        return $post;
-    }
-
-
-    private function dbConnect()
-    {
-        $db = new PDO('mysql:host=localhost;dbname=alaskaforteroche;charset=utf8', 'root', '');
-        return $db;
+        $req = $db->prepare('SELECT ' . implode(',', $this->attributes) .' FROM ' . $this->table .' ORDER BY `parution`' );
+        $req->execute();
+        var_dump($req);
+        $donnes = $req->fetchAll();
+        return $donnes;
+    
     }
 }
+?>

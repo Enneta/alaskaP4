@@ -19,4 +19,4 @@ echo('<p>'.$msgError.'</p>');?>
 
 <?php $content = ob_get_clean(); ?>
 
-<?php require('template.php'); ?>
+<?php require('asideView.php'); ?>

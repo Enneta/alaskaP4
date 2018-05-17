@@ -1,15 +1,9 @@
 <?php
-class user
+require_once('model/Model.php');
+class user extends Model
 {   
-    
-    public function getAll()
-    {
-        $db = $this->dbConnect();
-        $req = $db->query('SELECT pseudo, pass FROM b_user;');
-        $req->execute(array(0));
-        $donnes = $req->fetch();
-        return $donnes;
-    }
+    public $table = "b_user";
+    public $attributes = ['id', 'pseudo', 'pass'];
 
     public function switchPass($pass)
     {   
@@ -18,16 +12,11 @@ class user
 
         $req = $db->prepare('UPDATE b_user SET pass = :pass WHERE id = 1');
         $req->execute(array(
-	    'pass' => $pass
+        'pass' => $pass
 	    ));
         
     }
 
 
-    private function dbConnect()
-    {
-        $db = new PDO('mysql:host=localhost;dbname=alaskaforteroche;charset=utf8', 'root', '');
-        return $db;
-    }
 }
 ?>

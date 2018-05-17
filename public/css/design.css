@@ -61,19 +61,25 @@ h1{
     }
 
  }
-
+/* contenu front */
  #main{
      background-color: #0275D8;
      color: white;
      text-align: center;
  }
 
+ /* contenu back */
  #rightContent{
     background-color: purple;
     color: white;
 }
 
+#mainContentAdmin{
+    background-color: red;
+}
 
+
+/* footer*/
  footer{
      background-color: black;
      color: white;
@@ -85,3 +91,16 @@ h1{
     text-align: center;
 
  }
+/* nav lecture */
+.nav-item {
+    display: inline-block;
+    float: none;
+}
+
+
+ /* tinymce */
+.tinyForm{
+    width: 1200px;
+    max-width: 100%;
+    margin: auto;
+}

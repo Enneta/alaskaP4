@@ -1,10 +1,10 @@
 <?php
-require_once('model/classUser.php');
+require_once('model/ClassUser.php');
+require_once('model/ClassPost.php');
 class controller{
     //Front-END
     //Page d'acceuil
     public function index(){
-        
         require('view/Front-End/indexView.php');
     }
     public function mentionLegale(){
@@ -53,16 +53,16 @@ class controller{
                 $_POST['mpd']= htmlspecialchars($_POST['mpd']);
                 $user = new user();
                 $log = $user->getAll();
-        
-
+                $log = $log [0];
+                
                 if (isset($_POST['pseudo']) AND isset($_POST['mpd'])){
                     // Comparaison du pass envoyé via le formulaire avec la base
-                    $isPasswordCorrect = password_verify($_POST['mpd'], $log[1]);
-                    if($_POST['pseudo'] === $log[0] AND $isPasswordCorrect){
+                    $isPasswordCorrect = password_verify($_POST['mpd'], $log[2]);
+                    if($_POST['pseudo'] === $log[1] AND $isPasswordCorrect){
                         $_SESSION['admin'] = true;
                         require('view/Back-End/adminAccueilView.php');
                     }else{
-                        $msgError = "Identifiant saisie incorect";
+                        $msgError = var_dump($log);
                         require('view/Back-End/errorLogView.php');
                     }
                 }else{
@@ -71,6 +71,81 @@ class controller{
                 }
             
         
+    }
+
+    public function deconnexion(){
+        session_destroy ();
+        require('view/Front-End/indexView.php');
+        
+    }
+
+    public function nextChap(){
+        $post = new Post();
+        $log = $post->count();
+        $log = $log[0];
+        $log++;
+        $tiny = true;
+        $_POST['chapitre'] = $log;
+        require('view/Back-End/nextChapView.php');
+    }
+
+    public function updatePostForm(){
+        $post = new Post();
+        $id = (int)htmlspecialchars($_POST['menu_destination']);
+        $all = $post->find($id);
+        $log = $all['parution'];
+        $tiny = true;
+        require('view/Back-End/updatePostView.php');
+    }
+
+    public function updatePost(){
+        $data[0] = (int)htmlspecialchars($_POST['id']);
+        $data[1] = htmlspecialchars($_POST['titre']);
+        $data[2] = (int)htmlspecialchars($_POST['chapitre']);
+        $data[3] = htmlspecialchars($_POST['content']);
+        $date = htmlspecialchars($_POST['date']);
+        $data[4] = date($date);
+        $data[5] = "''";
+        $post = new Post;
+        $post->update($data);
+        $message = htmlspecialchars('Votre chapitre a bien été modifié');
+        require('view/Back-End/postTraitement.php');
+    }
+
+  
+    public function deletePost(){
+        $id = (int)htmlspecialchars($_POST['id']);
+        $post = new Post;
+        $post->delete($id);
+        $message = htmlspecialchars('Votre chapitre a bien été suprimé');
+        require('view/Back-End/postTraitement.php');
+    }
+    
+
+    public function updatePostAside(){
+        $post = new Post();
+        $log = $post->getAllPostOrderParution();
+        $lien = '';
+        $count = 0;
+        foreach ($log as $key => $log){
+            $count ++;
+            $lien = $lien.'<option value="'.$log['id'].'">chapitre '.$count.'</option>';
+        }
+        return $lien;
+    }
+
+    public function createPost(){
+        
+        $data[0] = htmlspecialchars($_POST['titre']);
+        $data[1] = (int)htmlspecialchars($_POST['chapitre']);
+        $data[2] = htmlspecialchars($_POST['content']);
+        $date = htmlspecialchars($_POST['date']);
+        $data[3] = date($date);
+        $data[4] = "''";
+        $post = new Post;
+        $post->create($data);
+        $message = htmlspecialchars('Votre chapitre a bien été ajouté');
+        require('view/Back-End/postTraitement.php');
     }
 
 }

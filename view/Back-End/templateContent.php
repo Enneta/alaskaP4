@@ -1,5 +1,5 @@
 <section id='main'class="row no-gutters">
-    <div id='mainContent'class="col-10 no-gutters">
+    <div id='mainContentAdmin'class="col-10 no-gutters">
         <?php
             echo ($content);
         ?>

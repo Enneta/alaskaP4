@@ -3,15 +3,16 @@ use alaskaforteroche;
 CREATE TABLE b_post (
     id int AUTO_INCREMENT,
     title varchar(255),
+    chapitre int,
     content text,
-    date Datetime,
+    parution Date,
     image text,
     PRIMARY KEY (ID)
 );
 CREATE TABLE b_comment (
     id int AUTO_INCREMENT,
     content text,
-    date Datetime,
+    parution Date,
     idbillet int,
     signaler int,
     statut boolean,
@@ -24,4 +25,4 @@ CREATE TABLE b_user (
     pass varchar(250),
     PRIMARY KEY (id)
 );
-INSERT INTO `b_user`(`pseudo`, `pass`) VALUES ('admin','admin');
+INSERT INTO `b_user`(`pseudo`, `pass`) VALUES ('admin','$2y$10$rSbWgOl7mDvxm1DKHVFH5.K27eeR9Y.ceRKs6tfVc98eAjad/0dXe');
