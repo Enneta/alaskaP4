@@ -3,21 +3,19 @@ use alaskaforteroche;
 CREATE TABLE b_post (
     id int AUTO_INCREMENT,
     title varchar(255),
-    chapitre int,
     content text,
     parution Date,
-    image text,
     PRIMARY KEY (ID)
 );
 CREATE TABLE b_comment (
     id int AUTO_INCREMENT,
     content text,
     parution Date,
-    idbillet int,
+    idPost int,
     signaler int,
     statut boolean,
     PRIMARY KEY (id),
-    FOREIGN KEY (idbillet) REFERENCES b_post(id)
+    FOREIGN KEY (idPost) REFERENCES b_post(id)
 );
 CREATE TABLE b_user (
     id int AUTO_INCREMENT,

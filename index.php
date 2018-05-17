@@ -11,6 +11,11 @@ if (isset($_GET['action'])) {
     }
     //BAck End
     // Seul la methode login et connexion sont accessible sans etre connecté en admnistrateur, pour des raisons évidentes...
+    else if ($_GET['action'] == 'lecture') {
+        $control->lecture();
+        
+    }
+
     else if ($_GET['action'] == 'actionLogin') {
         $control->connexion();
         

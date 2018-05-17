@@ -62,7 +62,7 @@ class controller{
                         $_SESSION['admin'] = true;
                         require('view/Back-End/adminAccueilView.php');
                     }else{
-                        $msgError = var_dump($log);
+                        $msgError = $log;
                         require('view/Back-End/errorLogView.php');
                     }
                 }else{
@@ -89,6 +89,7 @@ class controller{
         require('view/Back-End/nextChapView.php');
     }
 
+
     public function updatePostForm(){
         $post = new Post();
         $id = (int)htmlspecialchars($_POST['menu_destination']);
@@ -101,11 +102,9 @@ class controller{
     public function updatePost(){
         $data[0] = (int)htmlspecialchars($_POST['id']);
         $data[1] = htmlspecialchars($_POST['titre']);
-        $data[2] = (int)htmlspecialchars($_POST['chapitre']);
-        $data[3] = htmlspecialchars($_POST['content']);
+        $data[2] = htmlspecialchars($_POST['content']);
         $date = htmlspecialchars($_POST['date']);
-        $data[4] = date($date);
-        $data[5] = "''";
+        $data[3] = date($date);
         $post = new Post;
         $post->update($data);
         $message = htmlspecialchars('Votre chapitre a bien été modifié');
@@ -121,27 +120,115 @@ class controller{
         require('view/Back-End/postTraitement.php');
     }
     
-
+    
     public function updatePostAside(){
         $post = new Post();
         $log = $post->getAllPostOrderParution();
         $lien = '';
+
+        $lienAdmin = '';
         $count = 0;
+        $today = strtotime("now");
+        
         foreach ($log as $key => $log){
-            $count ++;
-            $lien = $lien.'<option value="'.$log['id'].'">chapitre '.$count.'</option>';
+            $parution = strtotime($log['parution']);
+            
+            if($parution and $parution < $today ){
+                $count ++;
+                $lien = $lien.'<option value="'.$log['id'].'">chapitre '.$count.' '.$log['title'].'</option>';
+            }else{
+                $lienAdmin = $lienAdmin.'<option value="'.$log['id'].'">chapitre  '.$log['title'].'</option>';
+            }
         }
+        
+        $lien = $lien . $lienAdmin;
+        
+        
         return $lien;
+    }
+
+    public function readNav(){
+        $post = new Post();
+        $req = $post->getAllPostOrderParution();
+        $data = array();
+        $lienFirst= '';
+        $lienPre = '';
+        $lien = '';
+        $lienNext ='';
+        $count = 0;
+        $today = strtotime("now");
+        $first = true;
+        $old = false;
+        $next = false;
+        if(isset($_POST['chapId'])){
+            $id = (int)$_POST['chapId'];
+            $old = true;
+            $next = true;
+        }
+        foreach ($req as $key => $log){
+            $ikey = $key+1;
+            $parution = strtotime($log['parution']);
+            if(isset($req[$ikey])){
+            $parutionNext = strtotime($req[$ikey]['parution']);
+            }
+            if($parution and $parution < $today ){
+
+                if(!$first and $old and $id == $log['id']){
+                    $lienPre = $pre;
+                    $old = false;
+                    }
+
+                if($first){
+                    $lienFirst= $log['id'];
+                    $first = false;
+                    $lienPre = $lienFirst;
+                }
+
+                $count ++;
+                $lien = $lien.'<option value="'.$log['id'].'">chapitre '.$count.' '.$log['title'].'</option>';
+                $pre = $log['id'];
+
+                if($next){
+                    $lienNext = $log['id'];
+                }
+
+                
+            }
+            if(isset($req[$ikey])){
+            if($parutionNext and $parutionNext < $today and $next and $id == $log['id']){
+                $lienNext = $req[$ikey]['id'];
+                $next = false;
+                
+            }
+            }
+        }
+        $data[0]= $lienFirst;
+        $data[1]= $lienPre;
+        $data[2]= $lien;
+        $data[3]= $lienNext;
+        $data[4]= $pre;
+        return $data;
+    }
+
+    public function lecture(){
+        if(isset($_POST['chapId'])){
+            $post = new Post;
+            $id = (int)$_POST['chapId'];
+            $data = $post->find($id);
+            require('view/Front-End/lectureView.php');
+
+        }else{
+            
+            require('view/Front-End/indexView.php');
+        }
     }
 
     public function createPost(){
         
         $data[0] = htmlspecialchars($_POST['titre']);
-        $data[1] = (int)htmlspecialchars($_POST['chapitre']);
-        $data[2] = htmlspecialchars($_POST['content']);
+        $data[1] = htmlspecialchars($_POST['content']);
         $date = htmlspecialchars($_POST['date']);
-        $data[3] = date($date);
-        $data[4] = "''";
+        $data[2] = date($date);
         $post = new Post;
         $post->create($data);
         $message = htmlspecialchars('Votre chapitre a bien été ajouté');

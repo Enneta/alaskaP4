@@ -9,12 +9,12 @@
 
 <p>Un billet simple pour l'Alaska, une histoire des plus captivantes !</p>
 
-<p>retrouvez le décor du désert enneiger de l'Alaka dans cette aventure.</p>
+<p>retrouvez le décor du désert enneigé de l'Alaka dans cette aventure.</p>
 
-<p>Les chapitres manquants paraîtront sur le site à leurs sorties.</p>
+<p>Les chapitres paraîtront sur le site à leurs sorties.</p>
 
 
 
 <?php $content = ob_get_clean(); ?>
 
-<?php require('template.php'); ?>
+<?php require('ReadNavView.php'); ?>
