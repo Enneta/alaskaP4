@@ -43,6 +43,7 @@ abstract class Model{
             $req->bindParam($atribut, $data[$key], $attributesTypes[$key]);
             
         }
+        var_dump($req);
         $req->execute();
     }
 

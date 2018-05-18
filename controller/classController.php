@@ -1,6 +1,7 @@
 <?php
 require_once('model/ClassUser.php');
 require_once('model/ClassPost.php');
+require_once('model/ClassComment.php');
 class controller{
     //Front-END
     //Page d'acceuil
@@ -213,12 +214,13 @@ class controller{
     public function lecture(){
         if(isset($_POST['chapId'])){
             $post = new Post;
+            $comment = new Comment;
             $id = (int)$_POST['chapId'];
             $data = $post->find($id);
+            $comments = $comment->getAllWithPost($id);
+            var_dump($comments);
             require('view/Front-End/lectureView.php');
-
         }else{
-            
             require('view/Front-End/indexView.php');
         }
     }
@@ -233,6 +235,37 @@ class controller{
         $post->create($data);
         $message = htmlspecialchars('Votre chapitre a bien été ajouté');
         require('view/Back-End/postTraitement.php');
+    }
+
+    public function createComment(){
+        if(isset($_POST['comment'])){
+        $data[0] = htmlspecialchars($_POST['pseudo']);
+        $data[1] = htmlspecialchars($_POST['content']);
+        $data[2] = strtotime("now");
+        $data[3] = (int)htmlspecialchars($_POST['chap']);
+        $data[4] = 0;
+        $comment = new Comment;
+        $comment->create($data);
+        $message = htmlspecialchars('Votre commentaire a bien été ajouté');
+        require('view/Front-End/commentTraitement.php');}
+        else{
+            require('view/Front-End/indexView.php');
+        }
+    }
+
+    public function report(){
+        if(isset($_POST['report'])){
+            $comment = new Comment;
+            $id = (int)$_POST['idcomment'];
+            $report = (int)$_POST['signalement'];
+            $report++;
+            $comment->report($id,$report);
+            $message = htmlspecialchars('Votre commentaire a bien été reporté');
+            require('view/Front-End/commentTraitement.php');
+        }
+        else{
+            require('view/Front-End/indexView.php');
+        }
     }
 
 }

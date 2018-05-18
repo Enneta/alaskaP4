@@ -12,6 +12,16 @@
 <input name="chap" type="hidden" value="<?php echo($data['id']); ?>"/>
 <input class='col-6' name="comment" type="submit" value="Envoyer" />
 </form>
+
+<?php foreach ($comments as $key => $comment){ ?>
+<p>pseudo :<?php echo($comment['pseudo']); ?></p>
+<form method="post" action="./?action=report">
+<input name="idcomment" type="hidden" value="<?php echo($comment['id']); ?>"/>
+<input name="signalement" type="hidden" value="<?php echo($comment['signaler']); ?>"/>
+<input class='col-6' name="report" type="submit" value="Envoyer" />
+</form>
+<p>message:<?php echo($comment['content']); ?></p>
+<?php } ?>
 </div>
 
 

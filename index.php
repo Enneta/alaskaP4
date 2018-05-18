@@ -9,11 +9,16 @@ if (isset($_GET['action'])) {
         $control->mentionLegale();
         
     }
-    //BAck End
-    // Seul la methode login et connexion sont accessible sans etre connecté en admnistrateur, pour des raisons évidentes...
     else if ($_GET['action'] == 'lecture') {
         $control->lecture();
         
+    }
+    else if ($_GET['action'] == 'createComment') {
+        $control->createComment();
+        
+    }
+    else if ($_GET['action'] == 'report') {
+        $control->report();
     }
 
     else if ($_GET['action'] == 'actionLogin') {
@@ -24,6 +29,11 @@ if (isset($_GET['action'])) {
     else if ($_GET['action'] == 'login') {
         $control->login();
     }
+
+    
+    //BAck End
+    // Seul la methode login et connexion sont accessible sans etre connecté en admnistrateur, pour des raisons évidentes...
+
     
     else if (isset($_SESSION['admin']) and $_SESSION['admin']) {
         if ($_GET['action'] == 'adminAccueil') {

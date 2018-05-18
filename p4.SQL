@@ -9,11 +9,11 @@ CREATE TABLE b_post (
 );
 CREATE TABLE b_comment (
     id int AUTO_INCREMENT,
+    pseudo varchar(255),
     content text,
     parution Date,
     idPost int,
     signaler int,
-    statut boolean,
     PRIMARY KEY (id),
     FOREIGN KEY (idPost) REFERENCES b_post(id)
 );
