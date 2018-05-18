@@ -82,6 +82,7 @@ abstract class Model{
         $attributesTypes = $this->attributesTypes[0];
         $req = $db->prepare('DELETE FROM '.$this->table.' WHERE '.$atribut.' = :'.$atribut);
         $req->bindParam($atribut, $id, $attributesTypes);
+        var_dump($id);
         $req->execute();
     }
 

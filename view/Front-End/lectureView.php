@@ -7,20 +7,22 @@
 <div class='col-12'>
 <h2>espace commentaire</h2>
 <form method="post" action="./?action=createComment">
-<input class='col-6' name="pseudo" type="text" value="pseudo"/>
-<textarea class='col-6' name="content" id="myTextarea">Commentaire...</textarea>
+<input class='col-6' name="pseudo" type="text"  placeholder='Pseudo'/>
+<textarea class='col-6' name="content" id="myTextarea" placeholder='Commentaire...'></textarea>
 <input name="chap" type="hidden" value="<?php echo($data['id']); ?>"/>
 <input class='col-6' name="comment" type="submit" value="Envoyer" />
 </form>
 
 <?php foreach ($comments as $key => $comment){ ?>
 <p>pseudo :<?php echo($comment['pseudo']); ?></p>
+
+<p>message:<?php echo($comment['content']); ?></p>
+
 <form method="post" action="./?action=report">
 <input name="idcomment" type="hidden" value="<?php echo($comment['id']); ?>"/>
 <input name="signalement" type="hidden" value="<?php echo($comment['signaler']); ?>"/>
-<input class='col-6' name="report" type="submit" value="Envoyer" />
+<input class='col-1' name="report" type="submit" value="signaler" />
 </form>
-<p>message:<?php echo($comment['content']); ?></p>
 <?php } ?>
 </div>
 

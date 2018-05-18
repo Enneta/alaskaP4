@@ -11,7 +11,6 @@ CREATE TABLE b_comment (
     id int AUTO_INCREMENT,
     pseudo varchar(255),
     content text,
-    parution Date,
     idPost int,
     signaler int,
     PRIMARY KEY (id),

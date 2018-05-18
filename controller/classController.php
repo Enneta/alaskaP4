@@ -3,6 +3,7 @@ require_once('model/ClassUser.php');
 require_once('model/ClassPost.php');
 require_once('model/ClassComment.php');
 class controller{
+    public $signalement = 1;
     //Front-END
     //Page d'acceuil
     public function index(){
@@ -152,6 +153,7 @@ class controller{
         $post = new Post();
         $req = $post->getAllPostOrderParution();
         $data = array();
+        $pre= '';
         $lienFirst= '';
         $lienPre = '';
         $lien = '';
@@ -218,7 +220,7 @@ class controller{
             $id = (int)$_POST['chapId'];
             $data = $post->find($id);
             $comments = $comment->getAllWithPost($id);
-            var_dump($comments);
+            
             require('view/Front-End/lectureView.php');
         }else{
             require('view/Front-End/indexView.php');
@@ -241,9 +243,8 @@ class controller{
         if(isset($_POST['comment'])){
         $data[0] = htmlspecialchars($_POST['pseudo']);
         $data[1] = htmlspecialchars($_POST['content']);
-        $data[2] = strtotime("now");
-        $data[3] = (int)htmlspecialchars($_POST['chap']);
-        $data[4] = 0;
+        $data[2] = (int)htmlspecialchars($_POST['chap']);
+        $data[3] = 0;
         $comment = new Comment;
         $comment->create($data);
         $message = htmlspecialchars('Votre commentaire a bien été ajouté');
@@ -266,6 +267,37 @@ class controller{
         else{
             require('view/Front-End/indexView.php');
         }
+    }
+
+    public function commentMod(){
+        $signalement = $this->signalement;
+        $comment = new Comment;
+        $comments = $comment->getAllReport($signalement);
+        var_dump($comments);
+        require('view/Back-End/commentForm.php');
+    }
+
+    public function judge(){
+        $comment = new Comment;
+        
+        if(isset($_POST['judge'])){
+            $id = (int)$_POST['idcomment'];
+            if($_POST['judge'] == 'suprimer'){
+                $comment->delete($id);
+                $message = 'commentaire suprimer';
+                require('view/Back-End/commentTraitement.php');
+            }
+            elseif($_POST['judge'] == 'reset signalement'){
+                $comment->unReport($id);
+                $message = 'signalement remis a zero';
+                require('view/Back-End/commentTraitement.php');
+            }
+            else{
+                require('view/Front-End/indexView.php');
+            }
+        }
+
+        
     }
 
 }

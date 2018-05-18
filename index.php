@@ -62,6 +62,17 @@ if (isset($_GET['action'])) {
             
         }
 
+        if ($_GET['action'] == 'commentMod') {
+            
+            $control->commentMod();
+            
+        }
+        if ($_GET['action'] == 'judge') {
+            
+            $control->judge();
+            
+        }
+
         if ($_GET['action'] == 'createPost') {
             
             $control->createPost();

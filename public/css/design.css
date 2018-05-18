@@ -9,15 +9,18 @@
     padding-left: 0;
   }
 
-
+ /* reset lien li*/
+ li {
+    list-style-type: none; 
+  }
  /* reset lien a*/
   a:link {
     color: white; 
-    text-decoration:underline;
+    text-decoration:none;
   }
   a:visited {
     color: #8D5D26;
-    text-decoration:underline;
+    text-decoration:none;
   }
   a:hover {
     color:#8D5D26;
@@ -72,6 +75,10 @@ h1{
  #rightContent{
     background-color: purple;
     color: white;
+}
+
+#rightContent li{
+    margin: 5px auto;
 }
 
 #mainContentAdmin{

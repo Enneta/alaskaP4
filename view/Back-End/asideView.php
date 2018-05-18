@@ -26,6 +26,8 @@ ob_start(); ?>
         </li><li>
         <a href='./?action=nextChap'><button type="button" class="btn btn-secondary">Ecrire le prochain chapitre</button></a>
         </li><li>
+        <a href='./?action=commentMod'><button type="button" class="btn btn-secondary">voir les commentaires signaler</button></a>
+        </li><li>
         <a href='./?action=switchMpd'><button type="button" class="btn btn-secondary">changer votre mot de passe</button></a>
         </li><li>
         <a href='./?action=deco'><button type="button" class="btn btn-secondary">Déconnexion</button></a>

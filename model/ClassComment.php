@@ -3,8 +3,8 @@ require_once('model/ClassPost.php');
 class Comment extends Post
 {   
     public $table = "b_comment";
-    public $attributes = ['id', 'pseudo', 'content','parution','idPost','signaler'];
-    public $attributesTypes = [PDO::PARAM_INT,PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_INT,PDO::PARAM_INT];
+    public $attributes = ['id', 'pseudo', 'content','idPost','signaler'];
+    public $attributesTypes = [PDO::PARAM_INT,PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_INT,PDO::PARAM_INT];
     
     final public function getAllWithPost($idPost){
         $db = $this->dbConnect();
@@ -22,8 +22,22 @@ class Comment extends Post
         $req->bindParam('id', $id, PDO::PARAM_INT);
         $req->bindParam('signalement', $signalement, PDO::PARAM_INT);
         $req->execute();
+    }
 
-        
+    final public function unReport($id){
+        $db = $this->dbConnect();
+        $req = $db->prepare('UPDATE `' . $this->table .'` SET `signaler`= 0 WHERE id = :id'  );
+        $req->bindParam('id', $id, PDO::PARAM_INT);
+        $req->execute();
+    }
+
+    final public function getAllReport($signalement){
+        $db = $this->dbConnect();
+        $req = $db->prepare('SELECT * FROM `' . $this->table .'` WHERE `signaler`>= :signalement'  );
+        $req->bindParam('signalement', $signalement, PDO::PARAM_INT);
+        $req->execute();
+        $donnes = $req->fetchAll();
+        return $donnes;
     }
 
 }
