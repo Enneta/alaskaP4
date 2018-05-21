@@ -1,7 +1,17 @@
 <?php
 $dataNAv = $this->readNav();
 ob_start(); ?>
-<nav class="navbar navbar-dark bg-dark sticky-top navbar-expand-lg">
+<nav class="navbar navbar-dark bg-dark sticky-top navbar-expand-lg ">
+
+
+
+  <!-- Toggler/collapsibe Button -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Navbar links -->
+  <div class="collapse navbar-collapse justify-content-center" id="collapsibleNavbar">
   <form class="form-inline my-2 my-lg-0"  method="post" action="./?action=lecture"> 
     <button class="btn-primary nav-item nav-link" type="submit" >début</button>
     <input  name="chapId" type="hidden" value="<?php echo($dataNAv[0]); ?>">
@@ -36,6 +46,7 @@ ob_start(); ?>
     
     <input  name="chapId" type="hidden" value="<?php echo($dataNAv[4]); ?>">
     </form>
+        </div>
 </nav>
 <?php $nav = ob_get_clean(); ?>
 <?php require('template.php'); ?>

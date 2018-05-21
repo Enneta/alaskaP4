@@ -7,6 +7,6 @@ chapitre numéro <?php echo($log);?>
 <input name="titre" type="text" value=""/>
 <textarea name="content" id="myTextarea"></textarea>
 <input name="date" type="date" value=""/>
-<input name="post" type="submit" value="nextchap" /></form>
+<input name="post" type="submit" value="Modifier" /></form>
 <?php $content = ob_get_clean(); ?>
 <?php require('asideView.php'); ?>

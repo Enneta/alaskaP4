@@ -97,7 +97,7 @@ if (isset($_GET['action'])) {
         }
     }
     else {
-        $control->login();
+        $control->index();
     }
     
     
