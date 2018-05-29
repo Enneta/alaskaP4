@@ -1,5 +1,5 @@
 <?php
-require_once('model/Model.php');
+require_once('./model/Model.php');
 class user extends Model
 {   
     public $table = "b_user";

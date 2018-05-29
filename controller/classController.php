@@ -1,7 +1,7 @@
 <?php
-require_once('model/ClassUser.php');
-require_once('model/ClassPost.php');
-require_once('model/ClassComment.php');
+require_once('./model/ClassUser.php');
+require_once('./model/ClassPost.php');
+require_once('./model/ClassComment.php');
 class controller{
     public $signalement = 1;
     //Front-END
@@ -24,7 +24,9 @@ class controller{
         $_POST['mpdConfirm'] = htmlspecialchars($_POST['mpdConfirm']);
         $user = new user();
         $log = $user->getAll();
-        if($log[1] === $_POST['actualMPD']){
+        $log = $log [0];
+        $isPasswordCorrect = password_verify($_POST['actualMPD'], $log[2]);
+        if($isPasswordCorrect){
             $user->switchPass($_POST['mpd']);
             require('view/Back-End/actionSwitchMPDView.php');
         }else if($_POST['mpd'] !== $_POST['mpdConfirm'] AND $_POST['mpd'] !== ''){
@@ -108,8 +110,16 @@ class controller{
         $date = htmlspecialchars($_POST['date']);
         $data[3] = date($date);
         $post = new Post;
+        $data2[0] =$data[1];
+        $data2[1] =$data[2];
+        $control = $this->controlPost($data2);
+        if ($control){
         $post->update($data);
         $message = htmlspecialchars('Votre chapitre a bien été modifié');
+        }
+        else{
+            $message = htmlspecialchars("une erreur s'est produite, pensez a remplir vos champs texte ou a ne pas dépasser les tailles limites");
+        }
         require('view/Back-End/postTraitement.php');
     }
 
@@ -174,7 +184,7 @@ class controller{
             if(isset($req[$ikey])){
             $parutionNext = strtotime($req[$ikey]['parution']);
             }
-            if($parution and $parution < $today ){
+            if($parution and $parution <= $today ){
 
                 if(!$first and $old and $id == $log['id']){
                     $lienPre = $pre;
@@ -227,6 +237,21 @@ class controller{
         }
     }
 
+    public function controlPost($data){
+        $test = true;
+        if ($data[0] == '' or strlen($data[0])>250){
+            var_dump($data[0]);
+            $test = false;
+        }
+
+        if ($data[1] == '' or strlen($data[1])>50000){
+            $test = false;
+            var_dump($data[1]);
+        }
+
+        return ($test);
+    }
+
     public function createPost(){
         
         $data[0] = htmlspecialchars($_POST['titre']);
@@ -234,8 +259,14 @@ class controller{
         $date = htmlspecialchars($_POST['date']);
         $data[2] = date($date);
         $post = new Post;
-        $post->create($data);
-        $message = htmlspecialchars('Votre chapitre a bien été ajouté');
+        $control = $this->controlPost($data);
+        if ($control){
+            $post->create($data);
+            $message = htmlspecialchars('Votre chapitre a bien été ajouté');
+        }
+        else{
+            $message = htmlspecialchars("une erreur s'est produite, pensez a remplir vos champs texte ou a ne pas dépasser les tailles limites");
+        }
         require('view/Back-End/postTraitement.php');
     }
 
@@ -273,7 +304,6 @@ class controller{
         $signalement = $this->signalement;
         $comment = new Comment;
         $comments = $comment->getAllReport($signalement);
-        var_dump($comments);
         require('view/Back-End/commentForm.php');
     }
 

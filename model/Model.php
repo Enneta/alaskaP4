@@ -9,7 +9,7 @@ abstract class Model{
     public $attributesTypes = array(); // redefinir dans les classes qui heritent
 
     protected function dbConnect(){
-        $db = new PDO('mysql:host=localhost;dbname=alaskaforteroche;charset=utf8', 'root', '');
+        $db =new PDO('mysql:host=37.187.123.120;port=3306;dbname=alaskaforteroche;charset=utf8','root','root');
         return $db;
     }
 
@@ -43,7 +43,6 @@ abstract class Model{
             $req->bindParam($atribut, $data[$key], $attributesTypes[$key]);
             
         }
-        var_dump($req);
         $req->execute();
     }
 
@@ -82,7 +81,6 @@ abstract class Model{
         $attributesTypes = $this->attributesTypes[0];
         $req = $db->prepare('DELETE FROM '.$this->table.' WHERE '.$atribut.' = :'.$atribut);
         $req->bindParam($atribut, $id, $attributesTypes);
-        var_dump($id);
         $req->execute();
     }
 

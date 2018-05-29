@@ -1,7 +1,7 @@
 <?php
-require_once('model/ClassPost.php');
+require_once('./model/ClassPost.php');
 class Comment extends Post
-{   
+{ 
     public $table = "b_comment";
     public $attributes = ['id', 'pseudo', 'content','idPost','signaler'];
     public $attributesTypes = [PDO::PARAM_INT,PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_INT,PDO::PARAM_INT];
