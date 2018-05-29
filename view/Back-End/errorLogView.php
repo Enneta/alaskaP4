@@ -2,8 +2,7 @@
 
 <?php ob_start(); ?>
 <h2>erreur de connexion</h2>
-<?php
-echo('<p>'.$msgError.'</p>');?>
+
 <form id="formulaire" action="./?action=actionLogin" method="post" >
     <h2>connexion</h2>
 	<p>pseudo</p>

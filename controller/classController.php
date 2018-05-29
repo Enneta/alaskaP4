@@ -66,7 +66,6 @@ class controller{
                         $_SESSION['admin'] = true;
                         require('view/Back-End/adminAccueilView.php');
                     }else{
-                        $msgError = $log;
                         require('view/Back-End/errorLogView.php');
                     }
                 }else{
