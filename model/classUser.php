@@ -4,6 +4,10 @@ class user extends Model
 {   
     public $table = "b_user";
     public $attributes = ['id', 'pseudo', 'pass'];
+    public $attributesTypes = [PDO::PARAM_INT,PDO::PARAM_STR,PDO::PARAM_STR];
+    public $id;
+    public $pseudo;
+    public $pass;
 
     public function switchPass($pass)
     {   
@@ -14,7 +18,6 @@ class user extends Model
         $req->execute(array(
         'pass' => $pass
 	    ));
-        
     }
 
 

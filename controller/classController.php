@@ -113,7 +113,11 @@ class controller{
         $data2[1] =$data[2];
         $control = $this->controlPost($data2);
         if ($control){
-        $post->update($data);
+            $post->id=$data[0];
+            $post->title=$data[1];
+            $post->content=$data[2];
+            $post->parution=$data[3];
+            $post->save();
         $message = htmlspecialchars('Votre chapitre a bien été modifié');
         }
         else{
@@ -126,7 +130,8 @@ class controller{
     public function deletePost(){
         $id = (int)htmlspecialchars($_POST['id']);
         $post = new Post;
-        $post->delete($id);
+        $post->init($id);
+        $post->suprimer();
         $message = htmlspecialchars('Votre chapitre a bien été suprimé');
         require('view/Back-End/postTraitement.php');
     }
@@ -239,13 +244,11 @@ class controller{
     public function controlPost($data){
         $test = true;
         if ($data[0] == '' or strlen($data[0])>250){
-            var_dump($data[0]);
             $test = false;
         }
 
         if ($data[1] == '' or strlen($data[1])>50000){
             $test = false;
-            var_dump($data[1]);
         }
 
         return ($test);
@@ -257,10 +260,14 @@ class controller{
         $data[1] = htmlspecialchars($_POST['content']);
         $date = htmlspecialchars($_POST['date']);
         $data[2] = date($date);
-        $post = new Post;
+        
         $control = $this->controlPost($data);
         if ($control){
-            $post->create($data);
+            $post = new Post;
+            $post->title=$data[0];
+            $post->content=$data[1];
+            $post->parution=$data[2];
+            $post->save();
             $message = htmlspecialchars('Votre chapitre a bien été ajouté');
         }
         else{
@@ -276,7 +283,10 @@ class controller{
         $data[2] = (int)htmlspecialchars($_POST['chap']);
         $data[3] = 0;
         $comment = new Comment;
-        $comment->create($data);
+        $comment->pseudo = $data[0];
+        $comment->content = $data[1];
+        $comment->idPost = $data[2];
+        $comment->save();
         $message = htmlspecialchars('Votre commentaire a bien été ajouté');
         require('view/Front-End/commentTraitement.php');}
         else{
@@ -312,7 +322,8 @@ class controller{
         if(isset($_POST['judge'])){
             $id = (int)$_POST['idcomment'];
             if($_POST['judge'] == 'suprimer'){
-                $comment->delete($id);
+                $comment->init($id);
+                $comment->suprimer();
                 $message = 'commentaire suprimer';
                 require('view/Back-End/commentTraitement.php');
             }

@@ -7,11 +7,54 @@ abstract class Model{
     public $attributes = array(); // redefinir dans les classes qui heritent
     
     public $attributesTypes = array(); // redefinir dans les classes qui heritent
-
+    
     protected function dbConnect(){
         $db =new PDO('mysql:host=37.187.123.120;port=3306;dbname=alaskaforteroche;charset=utf8','root','root');
         return $db;
     }
+
+    public function __construct() {
+        
+        foreach( $this->attributes as $key => $attribute ) {
+            if($this->attributesTypes[$key] == PDO::PARAM_STR){
+                $this->$attribute= '';
+            }
+            else{
+                $this->$attribute= 0;
+            }
+        }
+
+    }
+
+    public function init($id) {
+        $data = $this->find($id);
+        foreach( $this->attributes as $key => $attribute){
+        $this->$attribute= $data[$attribute];
+        }
+
+    }
+
+    public function save() {
+        $id = $this->attributes[0];
+        
+        $way = $this->find($this->$id);
+        if($way){
+            foreach( $this->attributes as $key => $attribute){
+                $data[$key] = $this->$attribute;
+                }
+                
+            $this->update($data);
+        }else{
+            $attributes =$this->attributes;
+            array_splice($attributes, 0, 1);
+            foreach( $attributes as $key => $attribute){
+                $data[$key] = $this->$attribute;
+                }
+                
+            $this->create($data);
+        }
+    }
+
 
     public function getAll(){
         $db = $this->dbConnect();
@@ -77,6 +120,17 @@ abstract class Model{
 
     public function delete($id){
         $db = $this->dbConnect();
+        $atribut = $this->attributes[0];
+        $attributesTypes = $this->attributesTypes[0];
+        $req = $db->prepare('DELETE FROM '.$this->table.' WHERE '.$atribut.' = :'.$atribut);
+        $req->bindParam($atribut, $id, $attributesTypes);
+        $req->execute();
+    }
+
+    public function suprimer(){
+        $db = $this->dbConnect();
+        $id ='id';
+        $id = $this->$id;
         $atribut = $this->attributes[0];
         $attributesTypes = $this->attributesTypes[0];
         $req = $db->prepare('DELETE FROM '.$this->table.' WHERE '.$atribut.' = :'.$atribut);

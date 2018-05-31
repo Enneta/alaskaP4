@@ -5,6 +5,13 @@ class Comment extends Post
     public $table = "b_comment";
     public $attributes = ['id', 'pseudo', 'content','idPost','signaler'];
     public $attributesTypes = [PDO::PARAM_INT,PDO::PARAM_STR,PDO::PARAM_STR,PDO::PARAM_INT,PDO::PARAM_INT];
+
+    public $id;
+    public $pseudo;
+    public $content;
+    public $idPost;
+    public $signaler;
+
     
     final public function getAllWithPost($idPost){
         $db = $this->dbConnect();
