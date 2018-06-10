@@ -94,6 +94,11 @@ input,textarea{
     padding: 0;
 }
 
+.asideButton{
+    width: 70%;
+    margin: 10px;
+}
+
 #rightContent li{
     width: 90%;
     margin: 5px auto;

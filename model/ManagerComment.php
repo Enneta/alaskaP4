@@ -1,6 +1,6 @@
 <?php
-require_once('./model/ClassPost.php');
-class Comment extends Post
+require_once('./model/ManagerPost.php');
+class ManagerComment extends ManagerPost
 { 
     public $table = "b_comment";
     public $attributes = ['id', 'pseudo', 'content','idPost','signaler'];

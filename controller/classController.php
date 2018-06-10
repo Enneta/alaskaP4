@@ -1,7 +1,9 @@
 <?php
-require_once('./model/ClassUser.php');
-require_once('./model/ClassPost.php');
-require_once('./model/ClassComment.php');
+require_once('./model/ManagerUser.php');
+require_once('./model/ManagerPost.php');
+require_once('./model/Post.php');
+require_once('./model/ManagerComment.php');
+require_once('./model/Comment.php');
 class controller{
     public $signalement = 1;
     //Front-END
@@ -22,7 +24,7 @@ class controller{
         $_POST['actualMPD'] = htmlspecialchars($_POST['actualMPD']);
         $_POST['mpd'] = htmlspecialchars($_POST['mpd']);
         $_POST['mpdConfirm'] = htmlspecialchars($_POST['mpdConfirm']);
-        $user = new user();
+        $user = new ManagerUser();
         $log = $user->getAll();
         $log = $log [0];
         $isPasswordCorrect = password_verify($_POST['actualMPD'], $log[2]);
@@ -55,7 +57,7 @@ class controller{
 
                 $_POST['pseudo']= htmlspecialchars($_POST['pseudo']);
                 $_POST['mpd']= htmlspecialchars($_POST['mpd']);
-                $user = new user();
+                $user = new ManagerUser();
                 $log = $user->getAll();
                 $log = $log [0];
                 
@@ -83,7 +85,7 @@ class controller{
     }
 
     public function nextChap(){
-        $post = new Post();
+        $post = new ManagerPost();
         $log = $post->count();
         $log = $log[0];
         $log++;
@@ -94,7 +96,7 @@ class controller{
 
 
     public function updatePostForm(){
-        $post = new Post();
+        $post = new ManagerPost();
         $id = (int)htmlspecialchars($_POST['menu_destination']);
         $all = $post->find($id);
         $log = $all['parution'];
@@ -109,6 +111,7 @@ class controller{
         $date = htmlspecialchars($_POST['date']);
         $data[3] = date($date);
         $post = new Post;
+        $Managerpost = new ManagerPost;
         $data2[0] =$data[1];
         $data2[1] =$data[2];
         $control = $this->controlPost($data2);
@@ -117,7 +120,7 @@ class controller{
             $post->title=$data[1];
             $post->content=$data[2];
             $post->parution=$data[3];
-            $post->save();
+            $Managerpost->save($post);
         $message = htmlspecialchars('Votre chapitre a bien été modifié');
         }
         else{
@@ -129,7 +132,7 @@ class controller{
   
     public function deletePost(){
         $id = (int)htmlspecialchars($_POST['id']);
-        $post = new Post;
+        $post = new ManagerPost;
         $post->init($id);
         $post->suprimer();
         $message = htmlspecialchars('Votre chapitre a bien été suprimé');
@@ -138,7 +141,7 @@ class controller{
     
     
     public function updatePostAside(){
-        $post = new Post();
+        $post = new ManagerPost();
         $log = $post->getAllPostOrderParution();
         $lien = '';
 
@@ -164,7 +167,7 @@ class controller{
     }
 
     public function readNav(){
-        $post = new Post();
+        $post = new ManagerPost();
         $req = $post->getAllPostOrderParution();
         $data = array();
         $pre= '';
@@ -229,8 +232,8 @@ class controller{
 
     public function lecture(){
         if(isset($_POST['chapId'])){
-            $post = new Post;
-            $comment = new Comment;
+            $post = new ManagerPost;
+            $comment = new ManagerComment;
             $id = (int)$_POST['chapId'];
             $data = $post->find($id);
             $comments = $comment->getAllWithPost($id);
@@ -264,10 +267,11 @@ class controller{
         $control = $this->controlPost($data);
         if ($control){
             $post = new Post;
+            $managerPost = new ManagerPost;
             $post->title=$data[0];
             $post->content=$data[1];
             $post->parution=$data[2];
-            $post->save();
+            $managerPost->save($post);
             $message = htmlspecialchars('Votre chapitre a bien été ajouté');
         }
         else{
@@ -282,11 +286,12 @@ class controller{
         $data[1] = htmlspecialchars($_POST['content']);
         $data[2] = (int)htmlspecialchars($_POST['chap']);
         $data[3] = 0;
+        $managerComment = new ManagerComment;
         $comment = new Comment;
         $comment->pseudo = $data[0];
         $comment->content = $data[1];
         $comment->idPost = $data[2];
-        $comment->save();
+        $managerComment->save($comment);
         $message = htmlspecialchars('Votre commentaire a bien été ajouté');
         require('view/Front-End/commentTraitement.php');}
         else{
@@ -296,11 +301,11 @@ class controller{
 
     public function report(){
         if(isset($_POST['report'])){
-            $comment = new Comment;
+            $managerComment = new ManagerComment;
             $id = (int)$_POST['idcomment'];
             $report = (int)$_POST['signalement'];
             $report++;
-            $comment->report($id,$report);
+            $managerComment->report($id,$report);
             $message = htmlspecialchars('Votre commentaire a bien été reporté');
             require('view/Front-End/commentTraitement.php');
         }
@@ -311,13 +316,13 @@ class controller{
 
     public function commentMod(){
         $signalement = $this->signalement;
-        $comment = new Comment;
+        $comment = new ManagerComment;
         $comments = $comment->getAllReport($signalement);
         require('view/Back-End/commentForm.php');
     }
 
     public function judge(){
-        $comment = new Comment;
+        $comment = new ManagerComment;
         
         if(isset($_POST['judge'])){
             $id = (int)$_POST['idcomment'];

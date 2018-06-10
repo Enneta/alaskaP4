@@ -1,6 +1,6 @@
 <?php
-require_once('./model/Model.php');
-class Post extends Model
+require_once('./model/ManagerModel.php');
+class ManagerPost extends ManagerModel
 {   
     public $table = "b_post";
     public $attributes = ['id', 'title', 'content','parution'];

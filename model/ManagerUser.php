@@ -1,6 +1,6 @@
 <?php
-require_once('./model/Model.php');
-class user extends Model
+require_once('./model/ManagerModel.php');
+class ManagerUser extends ManagerModel
 {   
     public $table = "b_user";
     public $attributes = ['id', 'pseudo', 'pass'];

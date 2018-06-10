@@ -1,6 +1,6 @@
 <?php
 
-abstract class Model{
+abstract class ManagerModel{
 
     protected $table = ""; // redefinir dans les classes qui heritent
 
@@ -34,7 +34,11 @@ abstract class Model{
 
     }
 
-    public function save() {
+    public function save($objet) {
+
+        foreach( $this->attributes as $key => $attribute){
+            $this->$attribute = $objet->$attribute;
+            }
         $id = $this->attributes[0];
         
         $way = $this->find($this->$id);
